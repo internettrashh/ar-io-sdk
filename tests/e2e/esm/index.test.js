@@ -346,6 +346,7 @@ describe('e2e tests', () => {
     });
   });
 
+
   describe('ANTRegistry', async () => {
     const registry = ANTRegistry.init();
     const address = '7waR8v4STuwPnTck1zFVkQqJh5K9q9Zik4Y5-5dV7nk';
@@ -356,14 +357,38 @@ describe('e2e tests', () => {
       assert(Array.isArray(affiliatedAnts.Controlled));
     });
 
-    it('should be able to create AoANTRegistryWriteable with valid signers', async () => {
-      for (const signer of signers) {
-        const registry = ANTRegistry.init({
-          signer,
-        });
-        assert(registry instanceof AoANTRegistryWriteable);
-      }
-    });
+  it('should be able to get current epoch distributions', async () => {
+    const distributions = await io.getDistributions();
+    assert.ok(distributions);
+  });
+
+  it('should be able to get epoch distributions at a specific epoch', async () => {
+    const distributions = await io.getDistributions({ epochIndex: 0 });
+    assert.ok(distributions);
+  });
+
+  it('should be able to get current epoch observations', async () => {
+    const observations = await io.getObservations();
+    assert.ok(observations);
+  });
+
+  it('should be able to get epoch observations at a specific epoch', async () => {
+    const observations = await io.getObservations({ epochIndex: 0 });
+    assert.ok(observations);
+  });
+
+  it('should be able to get current demand factor', async () => {
+    const demandFactor = await io.getDemandFactor();
+    assert.ok(demandFactor);
+  });
+
+  it('should be able to create IOWriteable with valid signers', async () => {
+    for (const signer of signers) {
+      const registry = ANTRegistry.init({
+        signer,
+      });
+      assert(registry instanceof AoANTRegistryWriteable);
+    }
   });
 
   describe('ANT', async () => {
